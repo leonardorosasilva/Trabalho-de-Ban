@@ -26,11 +26,15 @@ public class AssinaturaModel {
 
     private String status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idPlano", nullable = false)
     private PlanoModel plano;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
     private UsuarioModel usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "idConteudo", nullable = false)
+    private ConteudoModel conteudo;
 }

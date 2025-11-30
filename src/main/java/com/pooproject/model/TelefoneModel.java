@@ -17,12 +17,12 @@ public class TelefoneModel {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private int idTelefone;
 
-    // id usuario
-    @Column(nullable = false)
-    @JoinColumn(name = "idUsuario")
-    private int idUsuario;
+    // relation to usuario
+    @ManyToOne
+    @JoinColumn(name = "idUsuario", nullable = false)
+    private UsuarioModel usuario;
 
-    @OneToMany
+
     @Column(nullable = false)
     private String numero;
 }

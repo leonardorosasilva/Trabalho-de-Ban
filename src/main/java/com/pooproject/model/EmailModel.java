@@ -17,9 +17,10 @@ public class EmailModel {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private int idEmail;
 
-    // id usuario
+    // relation to usuario
+    @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
-    private int idUsuario;
+    private UsuarioModel usuario;
 
     @Column(nullable = false)
     private String email;
