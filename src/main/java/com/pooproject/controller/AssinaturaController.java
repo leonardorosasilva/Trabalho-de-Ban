@@ -70,13 +70,19 @@ public class AssinaturaController {
 
     private AssinaturaModel toEntity(AssinaturaDto d) {
         AssinaturaModel m = new AssinaturaModel();
-        if (d.idAssinatura() != null) m.setIdAssinatura(d.idAssinatura());
+
+        if (d.idAssinatura() != null)
+            m.setIdAssinatura(d.idAssinatura());
+
         m.setInicio(d.inicio());
         m.setFim(d.fim());
         m.setStatus(d.status());
-        if (d.planoId() != null) planoRepo.findById(d.planoId()).ifPresent(m::setPlano);
-        if (d.usuarioId() != null) usuarioRepo.findById(d.usuarioId()).ifPresent(m::setUsuario);
-        if (d.conteudoId() != null) conteudoRepo.findById(d.conteudoId()).ifPresent(m::setConteudo);
+
+        // Agora sempre seta as FKs (mesmo sem buscar do banco antes)
+        m.setPlano(planoRepo.getReferenceById(d.planoId()));
+        m.setUsuario(usuarioRepo.getReferenceById(d.usuarioId()));
+        m.setConteudo(conteudoRepo.getReferenceById(d.conteudoId()));
+
         return m;
     }
 }

@@ -22,7 +22,6 @@ public class TelefoneModel {
     @JoinColumn(name = "idUsuario", nullable = false)
     private UsuarioModel usuario;
 
-
     @Column(nullable = false)
     private String numero;
 }

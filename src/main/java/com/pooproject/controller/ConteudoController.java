@@ -61,12 +61,23 @@ public class ConteudoController {
 
     private ConteudoModel toEntity(ConteudoDto d) {
         ConteudoModel m = new ConteudoModel();
-        if (d.idConteudo() != null) m.setIdConteudo(d.idConteudo());
+
+        if (d.idConteudo() != null)
+            m.setIdConteudo(d.idConteudo());
+
         m.setTitulo(d.titulo());
-        m.setAnoLancamento(d.anoLancamento() != null ? d.anoLancamento() : 0);
+        m.setAnoLancamento(d.anoLancamento());
         m.setClassificacao(d.classificacao());
         m.setSinopse(d.sinopse());
-        if (d.administradorId() != null) administradorRepository.findById(d.administradorId()).ifPresent(m::setAdministrador);
+
+        // ⛔ ANTES: ifPresent → não garantia admin
+        // ✅ AGORA: Obrigatório e com erro claro
+        AdministradorModel admin = administradorRepository
+                .findById(d.administradorId())
+                .orElseThrow(() -> new RuntimeException("Administrador não encontrado"));
+
+        m.setAdministrador(admin);
+
         return m;
     }
 }

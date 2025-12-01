@@ -61,10 +61,23 @@ public class EmailController {
 
     private EmailModel toEntity(EmailDto d) {
         EmailModel m = new EmailModel();
-        if (d.idEmail() != null) m.setIdEmail(d.idEmail());
+
+        if (d.idEmail() != null)
+            m.setIdEmail(d.idEmail());
+
         m.setEmail(d.email());
-        if (d.usuarioId() != null) usuarioRepository.findById(d.usuarioId()).ifPresent(m::setUsuario);
+
+        if (d.usuarioId() == null) {
+            throw new RuntimeException("usuarioId é obrigatório.");
+        }
+
+        UsuarioModel usuario = usuarioRepository.findById(d.usuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + d.usuarioId()));
+
+        m.setUsuario(usuario);
+
         return m;
     }
+
 }
 
